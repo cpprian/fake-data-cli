@@ -8,6 +8,12 @@ class NumberValidator(Validator):
             raise ValidationError(message="Please enter a number",
                                   cursor_position=len(document.text))
 
+class NameValidator(Validator):
+    def validate(self, document):
+        if len(document.text) == 0:
+            raise ValidationError(message="Please enter a valid name",
+                                  cursor_position=len(document.text))
+
 start = [
     {
         'type': 'list',
@@ -17,7 +23,7 @@ start = [
     }
 ]
 
-csv = [
+csv_handle = [
     {
         'type': 'list',
         'name': 'csv_option',
@@ -30,15 +36,9 @@ excel = [
     {
         'type': 'input',
         'name': 'excel_sheet_name',
-        'message': 'Choose excel sheet name:',
+        'message': 'Choose excel sheet name. If you want to use default (DataSheet) name, just press enter:',
         "filter": lambda val: val.strip()
-    },
-    {
-        'type': 'input',
-        'name': 'excel_column',
-        'message': 'Choose excel column name (program will save in column, where user point out and next data to next column):',
-        "filter": lambda val: val.strip()
-    },
+    }
 ]
 
 sql = [
@@ -46,12 +46,14 @@ sql = [
         'type': 'input',
         'name': 'sql_database',
         'message': 'Choose sql database name:',
+        'validate': NameValidator,
         "filter": lambda val: val.strip()
     },
     {
         'type': 'input',
         'name': 'sql_table',
         'message': 'Choose sql table name:',
+        'validate': NameValidator,
         "filter": lambda val: val.strip()
     },
     {
@@ -66,7 +68,8 @@ generate_file = [
     {
         'type': 'input',
         'name': 'file_name',
-        'message': 'Enter file name (you can pass file path or file will be generated in project\'s bin dir):',
+        'message': 'Enter file name (file will be generated in project\'s bin dir):',
+        'validate': NameValidator,
         "filter": lambda val: val.strip()
     },
     {

@@ -66,7 +66,7 @@ generate_file = [
     {
         'type': 'input',
         'name': 'file_name',
-        'message': 'Enter file name (you can pass file path or file will be generated in project\'s bin dir):',
+        'message': 'Enter file name (file will be generated in project\'s bin dir):',
         "filter": lambda val: val.strip()
     },
     {
